@@ -1,11 +1,11 @@
 {
-    "name": "tafhyseni/godaddy-php",
-    "description": "A minimalist Godaddy Api Client for domain purchases and administrations",
+    "name": "sjkhew/godaddy-php",
+    "description": "A minimalist Godaddy Api Client for domain purchases and administrations by tafhyseni",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Mustafe Hyseni",
+            "name": "Khew (Original by Mustafe Hyseni)",
             "email": "tafhyseni@gmail.com"
         }
     ],
