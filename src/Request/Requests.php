@@ -132,17 +132,15 @@ class Requests
                 $this->getHeaders()
             );
             $request = $client->request(
-                'PUT',
+                'PATCH',
                 $this->configuration->getEndpoint().$url,
                 [
-                    'json' => $parameters,
+                    'body' => '['.$parameters.']',
                 ]
             );
 
             $this->httpStatus = $request->getStatusCode();
             $this->httpHeaders = $request->getHeaders();
-            $content = json_decode($request->getBody()->getContents());
-            $this->httpBody = reset($content)->agreementKey;
         } catch (\Exception $e) {
             if ($e->getCode() === 422) {
                 throw DomainException::invalidRecordType();
@@ -163,5 +161,32 @@ class Requests
                 'Accept' => 'application/json',
             ],
         ];
+    }
+
+    public function doAPICheckRecords(string $url, string $type, string $name)
+    {
+        try {
+            $client = new Client(
+                $this->getHeaders()
+            );
+
+            $request = $client->request(
+                'GET',
+                $this->configuration->getEndpoint().$url
+            );
+
+            $this->httpStatus = $request->getStatusCode();
+            $this->httpHeaders = $request->getHeaders();
+            $content = json_decode($request->getBody()->getContents());
+            $this->httpBody = reset($content);
+        } catch (\Exception $e) {
+            if ($e->getCode() === 422) {
+                throw DomainException::invalidRecordType();
+            } elseif ($e->getCode() === 404) {
+                throw DomainException::recordDomainNotFound();
+            } else {
+                throw DomainException::authorizationFailed();
+            }
+        }
     }
 }

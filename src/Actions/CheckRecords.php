@@ -5,17 +5,17 @@ namespace Tafhyseni\PhpGodaddy\Actions;
 use Tafhyseni\PhpGodaddy\Exceptions\DomainException;
 use Tafhyseni\PhpGodaddy\Request\Requests;
 
-class Records extends Requests
+class CheckRecords extends Requests
 {
-    const API_URL = 'v1/domains/{domain}/records';
+    const API_URL = 'v1/domains/{domain}/records/{type}/{name}';
 
     public $domain;
     public $type;
-    public $data;
+    public $name;
 
     /**
      * @param mixed $domain
-     * @return Records
+     * @return CheckRecords
      * @throws DomainException
      */
     public function setDomain(string $domain): self
@@ -31,7 +31,7 @@ class Records extends Requests
 
     /**
      * @param mixed $type
-     * @return Records
+     * @return CheckRecords
      */
     public function setType($type): self
     {
@@ -41,27 +41,27 @@ class Records extends Requests
     }
 
     /**
-     * @param mixed $data
-     * @return Records
+     * @param mixed $name
+     * @return CheckRecords
      */
-    public function setData(array $data): self
+    public function setName($name): self
     {
-        $this->data = json_encode($data);
+        $this->name = $name;
 
         return $this;
     }
 
     public function set(): self
     {
-        self::doAPIrecords($this->endpoint(), $this->data);
+        self::doAPICheckRecords($this->endpoint(), $this->type, $this->name);
 
         return $this;
     }
 
     protected function endpoint()
     {
-        $slugs = ['{domain}', '{type}'];
-        $parameters = [$this->domain, $this->type];
+        $slugs = ['{domain}', '{type}', '{name}'];
+        $parameters = [$this->domain, $this->type, $this->name];
 
         return str_replace($slugs, $parameters, self::API_URL);
     }

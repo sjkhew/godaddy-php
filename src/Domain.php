@@ -105,8 +105,13 @@ class Domain
         return (new Actions\Purchase($this->configuration))->setDomain($domain)->setOptions($options);
     }
 
-    public function records(string $domain, string $type, array $data): Actions\Records
+    public function records(string $domain, array $data): Actions\Records
     {
-        return (new Actions\Records($this->configuration))->setDomain($domain)->setType($type)->setData($data);
+        return (new Actions\Records($this->configuration))->setDomain($domain)->setData($data);
+    }
+
+    public function check_records(string $domain, string $type, string $name): Actions\CheckRecords
+    {
+        return (new Actions\CheckRecords($this->configuration))->setDomain($domain)->setType($type)->setName($name);
     }
 }

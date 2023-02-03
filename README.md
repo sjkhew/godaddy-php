@@ -143,8 +143,10 @@ try {
 $domainName = 'testinjoooo.biz'; // An already registered domain name under your account
 $domain = Domain::initialize('YOUR_API_KEY', 'YOUR_SECRET_KEY', 'PRODUCTION_MODE');
 
+$domain->check_records($domainName, 'RECORD_TYPE', 'Point0')->set(); // Check existing subdomain is registered in GoDaddy
+
 $domain->records($domainName, 'RECORD_TYPE', [
-	['name' => 'Point', 'data' => '123.1.1.1'],
+	['name' => 'Point1', 'data' => '123.1.1.1'],
 	['name' => 'Point2', 'data' => '123.1.1.3'],
 ])->set();
 ~~~
