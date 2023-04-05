@@ -14,10 +14,26 @@ You need:
 -   the `intl` extension
 
 
-### Installation
+### Installation - Main Repo
 
 ~~~php
 composer require tafhyseni/godaddy-php;
+~~~
+
+### Installation - Forked Repo
+
+Add `repositories` VCS with value below into `composer.json` to used the updated checking DNS repo.
+~~~php
+....
+....
+"minimum-stability": "dev",
+"prefer-stable": true,
+"repositories":[
+	{
+	    "type": "vcs",
+	    "url": "git@github.com:sjkhew/godaddy-php.git"
+	}
+]
 ~~~
 
 ### Usage
@@ -143,12 +159,13 @@ try {
 $domainName = 'testinjoooo.biz'; // An already registered domain name under your account
 $domain = Domain::initialize('YOUR_API_KEY', 'YOUR_SECRET_KEY', 'PRODUCTION_MODE');
 
+/*--- RECORD_TYPE Available values : A, AAAA, CNAME, MX, NS, SOA, SRV, TXT ---*/
 $domain->check_records($domainName, 'RECORD_TYPE', 'Point0')->set(); // Check existing subdomain is registered in GoDaddy
 
 $domain->records($domainName, 'RECORD_TYPE', [
 	['name' => 'Point1', 'data' => '123.1.1.1'],
 	['name' => 'Point2', 'data' => '123.1.1.3'],
-])->set();
+])->set(); // Create subdomain into GoDaddy
 ~~~
 
 ### Default API Return object
